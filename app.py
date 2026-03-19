@@ -1,3 +1,4 @@
+from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
 import json
 import pickle
@@ -19,6 +20,7 @@ nltk.download('wordnet', quiet=True)
 # -------------------------------------------
 
 app = Flask(__name__)
+CORS(app) # This tells Flask to accept requests from any frontend!
 lemmatizer = WordNetLemmatizer()
 
 # ... (Keep the rest of your app.py code exactly the same!) ...
