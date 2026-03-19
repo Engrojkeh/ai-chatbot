@@ -1,0 +1,103 @@
+{
+  "intents": [
+    {
+      "tag": "Greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Good morning",
+        "Good afternoon",
+        "How are you",
+        "How far",
+        "Wetin dey",
+        "I dey hail",
+        "Una do well",
+        "Nawa oh"
+      ],
+      "responses": [
+        "Hello! Welcome to our store. I can help you track an order, learn about payments, or process refunds. How can I help?",
+        "Hi there! I am your AI support bot. What can I assist you with today?"
+      ]
+    },
+    {
+      "tag": "Acknowledgement",
+      "patterns": [
+        "okay",
+        "ok",
+        "alright",
+        "thanks",
+        "thank you",
+        "bye",
+        "goodbye",
+        "that is all",
+        "that's all",
+        "cool"
+      ],
+      "responses": [
+        "You're welcome! Is there anything else I can help you with today?",
+        "Alright! Have a wonderful day. Please let me know if you need anything else!",
+        "Anytime! We are always here to help. Have a great day!"
+      ]
+    },
+    {
+      "tag": "Order_Tracking",
+      "patterns": [
+        "Where is my order",
+        "Track my order",
+        "When will my delivery arrive",
+        "Check order status",
+        "How far my delivery",
+        "Where my package dey",
+        "My order never reach",
+        "When una dey bring my market"
+      ],
+      "responses": [
+        "Please provide your Order ID, and I will check the delivery status for you right away."
+      ]
+    },
+    {
+      "tag": "Payment_Methods",
+      "patterns": [
+        "How do I pay",
+        "What are your payment methods",
+        "Can I pay with credit card",
+        "Do you accept bank transfer",
+        "How una dey take payment",
+        "I fit transfer money?",
+        "Which card u dey collect",
+        "Cash on delivery dey?"
+      ],
+      "responses": [
+        "We accept various payment methods including Credit/Debit Cards, Bank Transfers, and Wallet payments. For some regions, Pay on Delivery is also available."
+      ]
+    },
+    {
+      "tag": "Refund_Policy",
+      "patterns": [
+        "Can I return my item",
+        "What is your refund policy",
+        "I want my money back",
+        "Exchange policy",
+        "I no want this thing again",
+        "How I fit return this market",
+        "Give me back my money",
+        "Can I change the item"
+      ],
+      "responses": [
+        "You can return items within 7 days of delivery if they are intact. We process refunds within 3-5 business days after receiving the returned item."
+      ]
+    },
+    {
+      "tag": "Fallback",
+      "patterns": [
+        "",
+        "unknown_fallback_trigger_pattern"
+      ],
+      "responses": [
+        "I'm sorry, I didn't quite catch that. Could you please rephrase?",
+        "Abeg I no understand you. You fit say am another way?",
+        "I'm currently trained on specific queries like order tracking, payments, and refunds. Can you provide more details?"
+      ]
+    }
+  ]
+}

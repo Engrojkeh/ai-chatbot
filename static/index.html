@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support Chatbot</title>
+    <link rel="stylesheet" href="static/style.css">
+    <!-- Google Fonts for modern aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="chat-wrapper">
+    <!-- Chat Header -->
+    <div class="chat-header">
+        <div class="bot-avatar">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4ZM8 10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10C10 9.45 9.55 9 9 9C8.45 9 8 9.45 8 10ZM14 10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10C16 9.45 15.55 9 15 9C14.45 9 14 9.45 14 10ZM12 16.5C9.67 16.5 7.68 15.1 6.8 13H17.2C16.32 15.1 14.33 16.5 12 16.5Z" fill="white"/>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h2>Support Bot</h2>
+            <p>Nigerian E-Commerce</p>
+        </div>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div id="chat-scroller" class="chat-scroller">
+        <div id="chat-messages" class="chat-messages">
+            <div class="message bot-message">
+                <div class="message-bubble">
+                    Hello! Welcome to our store. I am your AI Support Assistant. Here is what I can help you with:<br><br>
+                    • <b>Track an order</b><br>
+                    • <b>Payment methods</b><br>
+                    • <b>Refund policy</b><br><br>
+                    How can I assist you today?
+                </div>
+            </div>
+            <!-- Dynamic Messages Go Here -->
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div id="typing-indicator" class="typing-indicator hidden">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Type a message or order ID..." autocomplete="off">
+        <button id="send-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="white"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script src="static/script.js"></script>
+</body>
+</html>

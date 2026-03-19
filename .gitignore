@@ -1,0 +1,13 @@
+# Virtual Environment
+venv/
+env/
+
+# Python Cache files
+__pycache__/
+*.pyc
+
+# Database files (Render will build a fresh one)
+ecommerce.db
+
+# macOS junk files (if applicable)
+.DS_Store
