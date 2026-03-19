@@ -51,14 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Send payload to backend Flask API
-            const fetchPromise = fetch('/api/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
-            });
+            // Change this line:
+// const fetchPromise = fetch('/api/chat', {
 
+// To exactly this:
+const fetchPromise = fetch('https://naija-support-bot.onrender.com/api/chat', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestData)
+});
             // Wait for both fetch and min artificial delay
             const [response] = await Promise.all([
                 fetchPromise,
