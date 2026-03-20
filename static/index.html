@@ -1,65 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Support Chatbot</title>
-    <link rel="stylesheet" href="static/style.css">
-    <!-- Google Fonts for modern aesthetics -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
 
-<div class="chat-wrapper">
-    <!-- Chat Header -->
-    <div class="chat-header">
-        <div class="bot-avatar">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4ZM8 10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10C10 9.45 9.55 9 9 9C8.45 9 8 9.45 8 10ZM14 10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10C16 9.45 15.55 9 15 9C14.45 9 14 9.45 14 10ZM12 16.5C9.67 16.5 7.68 15.1 6.8 13H17.2C16.32 15.1 14.33 16.5 12 16.5Z" fill="white"/>
-            </svg>
-        </div>
-        <div class="header-text">
-            <h2>Support Bot</h2>
-            <p>Nigerian E-Commerce</p>
-        </div>
-    </div>
-
-    <!-- Chat Messages Area -->
-    <div id="chat-scroller" class="chat-scroller">
-        <div id="chat-messages" class="chat-messages">
-            <div class="message bot-message">
-                <div class="message-bubble">
-                    Hello! Welcome to our store. I am your AI Support Assistant. Here is what I can help you with:<br><br>
-                    • <b>Track an order</b><br>
-                    • <b>Payment methods</b><br>
-                    • <b>Refund policy</b><br><br>
-                    How can I assist you today?
-                </div>
-            </div>
-            <!-- Dynamic Messages Go Here -->
-        </div>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Naija E-com Support - Digital Concierge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#FF6B35", // Coral/Orange theme
+                "secondary": "#2D3436",
+                "surface": "#F8F9FA",
+                "on-surface": "#2D3436",
+                "on-surface-variant": "#636E72",
+                "outline-variant": "#DFE6E9",
+                "bot-bubble": "#FFFFFF",
+                "user-bubble": "#FF6B35",
+              },
+              fontFamily: {
+                "headline": ["Inter", "sans-serif"],
+                "body": ["Inter", "sans-serif"],
+              },
+              borderRadius: {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "2xl": "2rem",
+              },
+              boxShadow: {
+                'premium': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
+                'card': '0 20px 50px rgba(255, 107, 53, 0.1)',
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        <!-- Typing Indicator -->
-        <div id="typing-indicator" class="typing-indicator hidden">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #FF6B35;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-    <!-- Input Area -->
-    <div class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Type a message or order ID..." autocomplete="off">
-        <button id="send-btn">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="white"/>
-            </svg>
-        </button>
-    </div>
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        .message-in {
+            animation: messageIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
+        }
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile Frame Styling */
+        .app-container {
+            max-width: 450px;
+            height: 90vh;
+            margin: 5vh auto;
+            position: relative;
+            background: #F8F9FA;
+            overflow: hidden;
+        }
+        @media (max-width: 640px) {
+            .app-container {
+                max-width: 100%;
+                height: 100vh;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-body text-on-surface antialiased">
+<div class="app-container shadow-card sm:rounded-3xl border border-white/50 flex flex-col">
+<!-- Header -->
+<header class="bg-white px-6 py-4 flex items-center justify-between border-b border-outline-variant/50 z-20">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-11 h-11 rounded-full bg-orange-50 flex items-center justify-center overflow-hidden border border-orange-100">
+<img alt="Support Bot Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwjkFxgT_QbQiMaXE6LdttcNGGmv64YDjEMTlorcH7uCx3PvyqXN-BkAdxoe6skO6Go6MD40k6SkIk7tszTRdSANF1Z1lzbqQUXUG1c219VvhhiSnUTNwXQ4lEc88TPM-31-ixu2G2IA1kqw6k1hpRDlWCnv48eR6q1htTLLdAUWwo4KD7ThIMAP1AiZ15UKZFagfg-IoOdEDI6YFCiSBLbKLMMOqUsVzrcDu63ujIlkeQCta92ZCKOFov376i-sedZlvDEvQyxs1J"/>
 </div>
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
+</div>
+<div>
+<h1 class="font-bold text-base leading-tight">Naija E-com Support</h1>
+<p class="text-[11px] font-bold text-green-600 uppercase tracking-widest">Online</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</header>
+<!-- Chat Canvas -->
+<main class="flex-1 overflow-y-auto px-5 py-6 space-y-4 hide-scrollbar bg-[#F8F9FA]" id="chat-container">
+<!-- Welcome Message -->
+<div class="text-center py-6 mb-4">
+<h2 class="text-xl font-bold text-on-surface">Good afternoon.</h2>
+<p class="text-on-surface-variant text-sm mt-1">How can I assist your luxury shopping experience today?</p>
+</div>
+<!-- Bot Message -->
+<div class="flex flex-col items-start max-w-[85%] message-in">
+<div class="bg-bot-bubble shadow-sm py-3.5 px-4 rounded-2xl rounded-tl-none border border-outline-variant/30">
+<p class="text-sm leading-relaxed text-on-surface">Hello! I'm your dedicated assistant for Naija E-commerce. Whether it's tracking an order or styling advice, I'm here to help.</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1.5 ml-1 font-medium">12:45 PM</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end self-end max-w-[80%] message-in">
+<div class="bg-user-bubble text-white py-3.5 px-4 rounded-2xl rounded-tr-none shadow-md">
+<p class="text-sm leading-relaxed">Where is my latest order from Lagos?</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1.5 mr-1 font-medium">12:46 PM</span>
+</div>
+<!-- Order Detail Card (Contextual Bot Response) -->
+<div class="message-in max-w-[90%]">
+<div class="bg-white rounded-2xl p-4 shadow-premium border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[10px] font-extrabold text-primary uppercase tracking-wider mb-0.5">Order #88291</p>
+<h3 class="font-bold text-on-surface">Lagos Express Delivery</h3>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="local_shipping">local_shipping</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-slate-400" data-icon="inventory_2">inventory_2</span>
+</div>
+<div class="flex-1">
+<div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary rounded-full"></div>
+</div>
+<p class="text-[11px] mt-2 text-on-surface-variant">Arriving tomorrow by <span class="text-on-surface font-bold">6:00 PM</span></p>
+</div>
+</div>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1.5 ml-1 font-medium">12:46 PM</span>
+</div>
+<div id="dynamic-messages"></div>
+<!-- Typing Indicator -->
+<div class="hidden flex flex-col items-start max-w-[85%]" id="typing-indicator">
+<div class="bg-bot-bubble py-3.5 px-5 rounded-2xl rounded-tl-none border border-outline-variant/30 flex items-center gap-1.5 shadow-sm">
+<div class="typing-dot"></div>
+<div class="typing-dot"></div>
+<div class="typing-dot"></div>
+</div>
+</div>
+</main>
+<!-- Bottom Interaction Area -->
+<div class="bg-white border-t border-outline-variant/30 pb-6 pt-3 px-5">
+<!-- Quick Replies -->
+<div class="flex gap-2 overflow-x-auto pb-4 hide-scrollbar">
+<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Track my order</button>
+<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Payment methods</button>
+<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Refund policy</button>
+<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Speak to human</button>
+</div>
+<!-- Input Bar -->
+<div class="flex items-center gap-2.5">
+<div class="flex-1 flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 py-1.5 focus-within:bg-white focus-within:border-primary/40 transition-all">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="add_circle">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-slate-400" id="chat-input" placeholder="Type your message..." type="text"/>
+</div>
+<button class="w-11 h-11 bg-primary text-white rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition-all shrink-0" id="send-btn">
+<span class="material-symbols-outlined text-2xl" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const container = document.getElementById('chat-container');
+    const dynamicMessages = document.getElementById('dynamic-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
 
-<script src="static/script.js"></script>
-</body>
-</html>
+    function scrollBottom() {
+        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+    }
+
+    /**
+     * Creates a message element for either bot or user
+     * @param {string} text 
+     * @param {boolean} isUser 
+     */
+    function createMessage(text, isUser = false) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `flex flex-col ${isUser ? 'items-end self-end max-w-[80%]' : 'items-start max-w-[85%]'} message-in mb-4`;
+        
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const bubble = document.createElement('div');
+        bubble.className = isUser 
+            ? 'bg-primary text-white py-3.5 px-4 rounded-2xl rounded-tr-none shadow-md'
+            : 'bg-white shadow-sm py-3.5 px-4 rounded-2xl rounded-tl-none border border-outline-variant/30 text-on-surface';
+        
+        const content = document.createElement('p');
+        content.className = 'text-sm leading-relaxed';
+        content.textContent = text;
+        
+        const timeLabel = document.createElement('span');
+        timeLabel.className = `text-[10px] text-on-surface-variant mt-1.5 ${isUser ? 'mr-1' : 'ml-1'} font-medium`;
+        timeLabel.textContent = time;
+
+        bubble.appendChild(content);
+        wrapper.appendChild(bubble);
+        wrapper.appendChild(timeLabel);
+        
+        return wrapper;
+    }
+
+    /**
+     * Logic for handling sending a message
+     */
+    async function handleSend() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        // 1. Add User Message UI
+        dynamicMessages.appendChild(createMessage(text, true));
+        input.value = '';
+        scrollBottom();
+
+        // 2. Show Typing State
+        typingIndicator.classList.remove('hidden');
+        scrollBottom();
+
+        // 3. Fake delay parameter (1000 - 2000 ms) for UX
+        const typingDelay = Math.floor(Math.random() * 1000) + 1000;
+
+        try {
+            // Check if user is typing an order ID directly (only digits)
+            const isDigit = /^\d+$/.test(text.trim());
+            let requestData = { message: text };
+            
+            if (isDigit) {
+                requestData.order_id = text.trim();
+            }
+            
+            // Send payload to your LIVE Render backend API
+            const fetchPromise = fetch('https://naija-support-bot.onrender.com/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            // Wait for both fetch and min artificial delay
+            const [response] = await Promise.all([
+                fetchPromise,
+                new Promise(resolve => setTimeout(resolve, typingDelay))
+            ]);
+
+            const data = await response.json();
+            
+            // Hide typing indicator
+            typingIndicator.classList.add('hidden');
+
+            if (data.response) {
+                dynamicMessages.appendChild(createMessage(data.response, false));
+            } else {
+                dynamicMessages.appendChild(createMessage("Sorry, we experienced an issue connecting to our servers.", false));
+            }
+            scrollBottom();
+
+        } catch (error) {
+            console.error("Error communicating with backend API:", error);
+            typingIndicator.classList.add('hidden');
+            dynamicMessages.appendChild(createMessage("There was an error connecting to the server. Please check your connection.", false));
+            scrollBottom();
+        }
+    }
+    // Initial scroll
+    window.onload = scrollBottom;
+</script>
+</body></html>
