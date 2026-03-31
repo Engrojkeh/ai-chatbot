@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Naija E-com Support - Digital Concierge</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Naija E-com Support - Digital Concierge</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
           theme: {
             extend: {
               colors: {
-                "primary": "#FF6B35", // Coral/Orange theme
+                "primary": "#FF6B35",
                 "secondary": "#2D3436",
                 "surface": "#F8F9FA",
                 "on-surface": "#2D3436",
@@ -26,12 +26,6 @@
                 "headline": ["Inter", "sans-serif"],
                 "body": ["Inter", "sans-serif"],
               },
-              borderRadius: {
-                "DEFAULT": "0.5rem",
-                "lg": "1rem",
-                "xl": "1.5rem",
-                "2xl": "2rem",
-              },
               boxShadow: {
                 'premium': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
                 'card': '0 20px 50px rgba(255, 107, 53, 0.1)',
@@ -40,10 +34,8 @@
           },
         }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -71,7 +63,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Mobile Frame Styling */
         .app-container {
             max-width: 450px;
             height: 90vh;
@@ -81,112 +72,59 @@
             overflow: hidden;
         }
         @media (max-width: 640px) {
-            .app-container {
-                max-width: 100%;
-                height: 100vh;
-                margin: 0;
-            }
+            .app-container { max-width: 100%; height: 100vh; margin: 0; }
         }
     </style>
 </head>
 <body class="bg-slate-100 font-body text-on-surface antialiased">
 <div class="app-container shadow-card sm:rounded-3xl border border-white/50 flex flex-col">
-<!-- Header -->
-<header class="bg-white px-6 py-4 flex items-center justify-between border-b border-outline-variant/50 z-20">
-<div class="flex items-center gap-3">
-<div class="relative">
-<div class="w-11 h-11 rounded-full bg-orange-50 flex items-center justify-center overflow-hidden border border-orange-100">
-<img alt="Support Bot Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwjkFxgT_QbQiMaXE6LdttcNGGmv64YDjEMTlorcH7uCx3PvyqXN-BkAdxoe6skO6Go6MD40k6SkIk7tszTRdSANF1Z1lzbqQUXUG1c219VvhhiSnUTNwXQ4lEc88TPM-31-ixu2G2IA1kqw6k1hpRDlWCnv48eR6q1htTLLdAUWwo4KD7ThIMAP1AiZ15UKZFagfg-IoOdEDI6YFCiSBLbKLMMOqUsVzrcDu63ujIlkeQCta92ZCKOFov376i-sedZlvDEvQyxs1J"/>
+    
+    <header class="bg-white px-6 py-4 flex items-center justify-between border-b border-outline-variant/50 z-20">
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <div class="w-11 h-11 rounded-full bg-orange-50 flex items-center justify-center overflow-hidden border border-orange-100">
+                    <span class="material-symbols-outlined text-primary text-2xl" data-icon="smart_toy">smart_toy</span>
+                </div>
+                <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
+            </div>
+            <div>
+                <h1 class="font-bold text-base leading-tight">Naija E-com Support</h1>
+                <p class="text-[11px] font-bold text-green-600 uppercase tracking-widest">Online</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto px-5 py-6 space-y-4 hide-scrollbar bg-[#F8F9FA]" id="chat-container">
+        
+        <div id="dynamic-messages"></div>
+        
+        <div class="hidden flex flex-col items-start max-w-[85%]" id="typing-indicator">
+            <div class="bg-bot-bubble py-3.5 px-5 rounded-2xl rounded-tl-none border border-outline-variant/30 flex items-center gap-1.5 shadow-sm">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="bg-white border-t border-outline-variant/30 pb-6 pt-3 px-5">
+        <div class="flex gap-2 overflow-x-auto pb-4 hide-scrollbar">
+            <button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Track my order</button>
+            <button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Payment methods</button>
+            <button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Refund policy</button>
+        </div>
+        
+        <div class="flex items-center gap-2.5">
+            <div class="flex-1 flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 py-1.5 focus-within:bg-white focus-within:border-primary/40 transition-all">
+                <input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-slate-400 outline-none" id="chat-input" placeholder="Type your message..." type="text"/>
+            </div>
+            <button class="w-11 h-11 bg-primary text-white rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition-all shrink-0" id="send-btn">
+                <span class="material-symbols-outlined text-2xl" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+            </button>
+        </div>
+    </div>
 </div>
-<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
-</div>
-<div>
-<h1 class="font-bold text-base leading-tight">Naija E-com Support</h1>
-<p class="text-[11px] font-bold text-green-600 uppercase tracking-widest">Online</p>
-</div>
-</div>
-<button class="p-2 text-on-surface-variant hover:bg-slate-50 rounded-full transition-colors">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-</button>
-</header>
-<!-- Chat Canvas -->
-<main class="flex-1 overflow-y-auto px-5 py-6 space-y-4 hide-scrollbar bg-[#F8F9FA]" id="chat-container">
-<!-- Welcome Message -->
-<div class="text-center py-6 mb-4">
-<h2 class="text-xl font-bold text-on-surface">Good afternoon.</h2>
-<p class="text-on-surface-variant text-sm mt-1">How can I assist your luxury shopping experience today?</p>
-</div>
-<!-- Bot Message -->
-<div class="flex flex-col items-start max-w-[85%] message-in">
-<div class="bg-bot-bubble shadow-sm py-3.5 px-4 rounded-2xl rounded-tl-none border border-outline-variant/30">
-<p class="text-sm leading-relaxed text-on-surface">Hello! I'm your dedicated assistant for Naija E-commerce. Whether it's tracking an order or styling advice, I'm here to help.</p>
-</div>
-<span class="text-[10px] text-on-surface-variant mt-1.5 ml-1 font-medium">12:45 PM</span>
-</div>
-<!-- User Message -->
-<div class="flex flex-col items-end self-end max-w-[80%] message-in">
-<div class="bg-user-bubble text-white py-3.5 px-4 rounded-2xl rounded-tr-none shadow-md">
-<p class="text-sm leading-relaxed">Where is my latest order from Lagos?</p>
-</div>
-<span class="text-[10px] text-on-surface-variant mt-1.5 mr-1 font-medium">12:46 PM</span>
-</div>
-<!-- Order Detail Card (Contextual Bot Response) -->
-<div class="message-in max-w-[90%]">
-<div class="bg-white rounded-2xl p-4 shadow-premium border border-outline-variant/20">
-<div class="flex justify-between items-start mb-4">
-<div>
-<p class="text-[10px] font-extrabold text-primary uppercase tracking-wider mb-0.5">Order #88291</p>
-<h3 class="font-bold text-on-surface">Lagos Express Delivery</h3>
-</div>
-<span class="material-symbols-outlined text-primary" data-icon="local_shipping">local_shipping</span>
-</div>
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
-<span class="material-symbols-outlined text-slate-400" data-icon="inventory_2">inventory_2</span>
-</div>
-<div class="flex-1">
-<div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-<div class="h-full w-2/3 bg-primary rounded-full"></div>
-</div>
-<p class="text-[11px] mt-2 text-on-surface-variant">Arriving tomorrow by <span class="text-on-surface font-bold">6:00 PM</span></p>
-</div>
-</div>
-</div>
-<span class="text-[10px] text-on-surface-variant mt-1.5 ml-1 font-medium">12:46 PM</span>
-</div>
-<div id="dynamic-messages"></div>
-<!-- Typing Indicator -->
-<div class="hidden flex flex-col items-start max-w-[85%]" id="typing-indicator">
-<div class="bg-bot-bubble py-3.5 px-5 rounded-2xl rounded-tl-none border border-outline-variant/30 flex items-center gap-1.5 shadow-sm">
-<div class="typing-dot"></div>
-<div class="typing-dot"></div>
-<div class="typing-dot"></div>
-</div>
-</div>
-</main>
-<!-- Bottom Interaction Area -->
-<div class="bg-white border-t border-outline-variant/30 pb-6 pt-3 px-5">
-<!-- Quick Replies -->
-<div class="flex gap-2 overflow-x-auto pb-4 hide-scrollbar">
-<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Track my order</button>
-<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Payment methods</button>
-<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Refund policy</button>
-<button class="whitespace-nowrap bg-white border border-outline-variant text-primary text-xs font-bold py-2.5 px-4 rounded-full shadow-sm hover:border-primary/50 transition-all active:scale-95">Speak to human</button>
-</div>
-<!-- Input Bar -->
-<div class="flex items-center gap-2.5">
-<div class="flex-1 flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 py-1.5 focus-within:bg-white focus-within:border-primary/40 transition-all">
-<button class="text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-xl" data-icon="add_circle">add_circle</span>
-</button>
-<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-slate-400" id="chat-input" placeholder="Type your message..." type="text"/>
-</div>
-<button class="w-11 h-11 bg-primary text-white rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition-all shrink-0" id="send-btn">
-<span class="material-symbols-outlined text-2xl" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
-</button>
-</div>
-</div>
-</div>
+
 <script>
     const input = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
@@ -198,11 +136,6 @@
         container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
     }
 
-    /**
-     * Creates a message element for either bot or user
-     * @param {string} text 
-     * @param {boolean} isUser 
-     */
     function createMessage(text, isUser = false) {
         const wrapper = document.createElement('div');
         wrapper.className = `flex flex-col ${isUser ? 'items-end self-end max-w-[80%]' : 'items-start max-w-[85%]'} message-in mb-4`;
@@ -216,7 +149,7 @@
             : 'bg-white shadow-sm py-3.5 px-4 rounded-2xl rounded-tl-none border border-outline-variant/30 text-on-surface';
         
         const content = document.createElement('p');
-        content.className = 'text-sm leading-relaxed';
+        content.className = 'text-sm leading-relaxed whitespace-pre-line';
         content.textContent = text;
         
         const timeLabel = document.createElement('span');
@@ -230,44 +163,33 @@
         return wrapper;
     }
 
-    /**
-     * Logic for handling sending a message and talking to Flask
-     */
     async function handleSend() {
         const text = input.value.trim();
         if (!text) return;
 
-        // 1. Add User Message UI
+        // 1. Add User Message
         dynamicMessages.appendChild(createMessage(text, true));
         input.value = '';
         scrollBottom();
 
-        // 2. Show Typing State
+        // 2. Show Typing Indicator
         typingIndicator.classList.remove('hidden');
         scrollBottom();
 
-        // 3. UX Delay
         const typingDelay = Math.floor(Math.random() * 1000) + 1000;
 
         try {
-            // Check if user is typing an order ID directly
             const isDigit = /^\d+$/.test(text.trim());
             let requestData = { message: text };
+            if (isDigit) requestData.order_id = text.trim();
             
-            if (isDigit) {
-                requestData.order_id = text.trim();
-            }
-            
-            // Because Flask is serving this file, we can safely use the relative route!
+            // Connect to backend
             const fetchPromise = fetch('/api/chat', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestData)
             });
 
-            // Wait for both fetch and UX delay
             const [response] = await Promise.all([
                 fetchPromise,
                 new Promise(resolve => setTimeout(resolve, typingDelay))
@@ -275,31 +197,28 @@
 
             const data = await response.json();
             
-            // Hide typing indicator
             typingIndicator.classList.add('hidden');
 
             if (data.response) {
                 dynamicMessages.appendChild(createMessage(data.response, false));
             } else {
-                dynamicMessages.appendChild(createMessage("Sorry, we experienced an issue connecting to our servers.", false));
+                dynamicMessages.appendChild(createMessage("Sorry, I experienced an issue connecting.", false));
             }
             scrollBottom();
 
         } catch (error) {
-            console.error("Error communicating with backend API:", error);
+            console.error("Error:", error);
             typingIndicator.classList.add('hidden');
-            dynamicMessages.appendChild(createMessage("There was an error connecting to the server. Please check your connection.", false));
+            dynamicMessages.appendChild(createMessage("Error connecting to the server. If this is the first message in a while, the server is just waking up. Try sending again in a few seconds!", false));
             scrollBottom();
         }
     }
 
-    // Event Listeners
     sendBtn.addEventListener('click', handleSend);
     input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleSend();
     });
 
-    // Quick replies handler
     document.querySelectorAll('button.whitespace-nowrap').forEach(btn => {
         btn.addEventListener('click', () => {
             input.value = btn.innerText;
@@ -307,7 +226,12 @@
         });
     });
 
-    // Initial scroll
-    window.onload = scrollBottom;
+    // Add Initial Bot Greeting On Page Load
+    window.onload = () => {
+        const welcomeText = "Hello! Welcome to our store. I am your AI Support Assistant. Here is what I can help you with:\n\n• Track an order\n• Payment methods\n• Refund policy\n\nHow can I assist you today?";
+        dynamicMessages.appendChild(createMessage(welcomeText, false));
+        scrollBottom();
+    };
 </script>
-</body></html>
+</body>
+</html>
