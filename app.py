@@ -16,16 +16,24 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 nltk.download('punkt', quiet=True)
 nltk.download('wordnet', quiet=True)
-nltk.download('punkt_tab', quiet=True) # <-- The missing piece!
+nltk.download('punkt_tab', quiet=True)
 # ---------------------------------------
 
 app = Flask(__name__)
-CORS(app) # Allows your frontend to talk to the backend safely
+CORS(app) 
 lemmatizer = WordNetLemmatizer()
 
-# Load Model and objects
+# Define variables globally, but DO NOT load them yet!
+model = None
+vectorizer = None
+label_encoder = None
+intents = None
+
 def load_resources():
-    try:
+    """Lazy Loader: Only runs once when the first message is sent"""
+    global model, vectorizer, label_encoder, intents
+    if model is None: # Only load if it hasn't been loaded yet
+        print("Loading AI Model into memory for the first time...")
         model = tf.keras.models.load_model('chatbot_model.keras')
         with open('vectorizer.pkl', 'rb') as f:
             vectorizer = pickle.load(f)
@@ -33,15 +41,10 @@ def load_resources():
             label_encoder = pickle.load(f)
         with open('intents.json', 'r', encoding='utf-8') as f:
             intents = json.load(f)
-        return model, vectorizer, label_encoder, intents
-    except Exception as e:
-        print(f"Error loading resources. Did you train the model? {e}")
-        return None, None, None, None
-
-model, vectorizer, label_encoder, intents = load_resources()
+        print("AI Model loaded successfully!")
 
 def log_metrics(latency, confidence, intent_tag):
-    """Logs latency and confidence score to metrics.log for Chapter 4"""
+    """Logs latency and confidence score to metrics.log"""
     with open('metrics.log', 'a') as f:
         log_entry = f"{time.strftime('%Y-%m-%d %H:%M:%S')} | Intent: {intent_tag} | Confidence: {confidence:.4f} | Latency: {latency:.2f} ms\n"
         f.write(log_entry)
@@ -73,9 +76,12 @@ def index():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    # Wrap the entire logic in a try-except block so errors show up in the chat!
     try:
         start_time = time.time()
+        
+        # --- LAZY LOAD TRIGGER ---
+        # This will only take time on the very first message!
+        load_resources()
         
         data = request.get_json()
         user_message = data.get('message', '')
@@ -104,21 +110,16 @@ def chat():
         predicted_class_index = np.argmax(predictions)
         confidence_score = predictions[predicted_class_index]
         
-        # Map index to intent
         intent_tag = label_encoder.inverse_transform([predicted_class_index])[0]
         
-        # Calculate Latency
         end_time = time.time()
         latency_ms = (end_time - start_time) * 1000
         
-        # Log Metrics
         log_metrics(latency_ms, confidence_score, intent_tag)
         
-        # Fallback if confidence is too low
         if confidence_score < 0.3:
             intent_tag = 'Fallback'
             
-        # Find matching response
         response_text = ""
         for intent in intents['intents']:
             if intent['tag'] == intent_tag:
@@ -126,7 +127,6 @@ def chat():
                 response_text = random.choice(intent['responses'])
                 break
                 
-        # Conditional logic for Order Tracking
         if intent_tag == 'Order_Tracking' or order_id_context:
             if order_id_context:
                 intent_tag = 'Order_Tracking' 
@@ -149,7 +149,6 @@ def chat():
         })
 
     except Exception as e:
-        # If ANYTHING crashes, print the error directly to the chat interface!
         return jsonify({
             "response": f"Backend Error: {str(e)}",
             "intent": "Error",
