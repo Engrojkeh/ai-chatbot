@@ -231,7 +231,7 @@
     }
 
     /**
-     * Logic for handling sending a message
+     * Logic for handling sending a message and talking to Flask
      */
     async function handleSend() {
         const text = input.value.trim();
@@ -246,11 +246,11 @@
         typingIndicator.classList.remove('hidden');
         scrollBottom();
 
-        // 3. Fake delay parameter (1000 - 2000 ms) for UX
+        // 3. UX Delay
         const typingDelay = Math.floor(Math.random() * 1000) + 1000;
 
         try {
-            // Check if user is typing an order ID directly (only digits)
+            // Check if user is typing an order ID directly
             const isDigit = /^\d+$/.test(text.trim());
             let requestData = { message: text };
             
@@ -258,8 +258,8 @@
                 requestData.order_id = text.trim();
             }
             
-            // Send payload to your LIVE Render backend API
-            const fetchPromise = fetch('https://naija-support-bot.onrender.com/api/chat', {
+            // Because Flask is serving this file, we can safely use the relative route!
+            const fetchPromise = fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -267,7 +267,7 @@
                 body: JSON.stringify(requestData)
             });
 
-            // Wait for both fetch and min artificial delay
+            // Wait for both fetch and UX delay
             const [response] = await Promise.all([
                 fetchPromise,
                 new Promise(resolve => setTimeout(resolve, typingDelay))
@@ -292,6 +292,21 @@
             scrollBottom();
         }
     }
+
+    // Event Listeners
+    sendBtn.addEventListener('click', handleSend);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSend();
+    });
+
+    // Quick replies handler
+    document.querySelectorAll('button.whitespace-nowrap').forEach(btn => {
+        btn.addEventListener('click', () => {
+            input.value = btn.innerText;
+            handleSend();
+        });
+    });
+
     // Initial scroll
     window.onload = scrollBottom;
 </script>
